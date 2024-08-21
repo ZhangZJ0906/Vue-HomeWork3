@@ -3,17 +3,7 @@
     <div class="container mt-5">
       <div class="row">
         <!-- 菜單 -->
-        <div class="col-md-4">
-          <div class="list-group" v-for="item in data" :key="item.id" @click.prevent="addItem(item)">
-            <a href="#" class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ item.name }}</h5>
-                <small>{{ item.price }}</small>
-              </div>
-              <p class="mb-1">{{ item.description }}</p>
-            </a>
-          </div>
-        </div>
+        <Menu :item="data" @add-item="addItem" />
         <!--新增刪除訂單 -->
         <div class="col-md-8">
           <table class="table">
@@ -53,43 +43,16 @@
       </div>
       <hr />
       <!-- 訂單送出 -->
-      <div class="row justify-content-center" v-if="showorder">
-        <div class="col-8">
-          <div class="card">
-            <div class="card-body">
-              <div class="card-title">
-                <h5>訂單</h5>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">品項</th>
-                      <th scope="col">數量</th>
-                      <th scope="col">小計</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="item in FinalOrder.items" :key="item.id">
-                      <td>{{ item.name }}</td>
-                      <td>{{ item.quantity }}</td>
-                      <td>{{ item.price * item.quantity }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="text-end">備註: <span>{{ FinalOrder.note }}</span></div>
-                <div class="text-end">
-                  <h5>總計: <span>{{ FinalOrder.total }}</span></h5>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ShowOrder :showorder="showorder" :FinalOrder="FinalOrder" />
+     
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
+import Menu from './components/menu.vue';
+import ShowOrder from './components/ShowOrder.vue';
 const showorder = ref(false);
 const order = ref([]);
 const orders = ref([]);
